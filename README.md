@@ -1,6 +1,6 @@
 # Professional_README_Generator
 
-![GitHub](https://img.shields.io/github/license/girmaD/Professional_README_Generator)
+![License](https://img.shields.io/badge/License-MIT-blue.svg "License Badge")
 
 ## license 
  * MIT
