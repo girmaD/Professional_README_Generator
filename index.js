@@ -88,7 +88,8 @@ const promptQuestions = () =>
 const generateREADME = (answers) => 
 
 `
-![License](https://img.shields.io/badge/License-${answers.license}-blue.svg "License Badge")
+[![MIT License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/MIT)
+
 
 # ${answers.title}
 
@@ -124,7 +125,7 @@ ${answers.askAgain}
 
 ## License
 
-![License](https://img.shields.io/badge/License-${answers.license}-blue.svg "License Badge")
+[![MIT License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Contact
 
