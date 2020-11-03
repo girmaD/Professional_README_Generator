@@ -3,51 +3,72 @@ const fs = require("fs");
 const util = require('util');
 
 const writeFileAsync = util.promisify(fs.writeFile);
-
-
+// repo names are more complicated than concatenating using dashes
+function githubRepoAssembler(str) {  
+  const strArr = str.split(' ');
+  let firstEl = strArr[0];
+  for(let i = 1; i < strArr.length; i++ ){
+      firstEl += `-${strArr[i]}`
+  }
+  return firstEl;
+}
+//Common licenses for projects
+const licenseOptions = {
+  "MIT": "[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)",
+  "Apache": "[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)",
+  "GNU": "[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)",
+  "BSD": "[![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://opensource.org/licenses/BSD-3-Clause)",
+  "Eclipse": "[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)",  
+  "None": "No license",
+};
 const promptQuestions = () =>
   inquirer.prompt([
     {
       type: 'input',
-      name: 'title',
-      message: 'What is the title of your project?',
-    },
-    {
-      type: 'confirm',
-      name: 'github',
-      message: 'Do you have github repo for this project?'
+      name: 'username',
+      message: 'What is your gitHub username?',
     },
     {
       type: 'input',
+      name: 'email',
+      message: 'provide your email address for contact?',
+      //taken from stack overflow (regex email)
+      validate: function validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+      }
+    },
+    {
+      type: 'input',
+      name: 'title',
+      message: 'What is the title of your project?',
+    },    
+    {
+      type: 'input',
       name: 'repo',
-      message: 'Please provide the url of the github repo for this project?',
-      when:  answers =>  answers.github      
-    },
-    {
-      type: 'checkbox',
-      name: 'table',
-      message: 'What should your table of content include?',
-      choices: [
-        'Introduction', 
-        'Objective', 
-        'How-To-Use-The-App', 
-        'Contact'
-      ]
-    },
+      message: 'Please provide the url of the github repo for this project?'           
+    },    
     {
       type: 'editor',
-      name: 'introduction',
-      message: 'Please provide a brief introduction to this project?',
-    },
+      name: 'description',
+      message: 'Please provide a brief description of this project? You will write this description in a text editor - feel free to write as much as you can.',
+    },   
     {
-      type: 'editor',
-      name: 'objective',
-      message: 'What is the objective of this project?',
-    },
+      type: 'input',
+      name: 'installation',
+      message: 'Please provide instruction on how to intall this app?'
+    }, 
     {
       type: 'editor',
       name: 'how',
-      message: 'Please provide a step by step guide on how to use this application?',
+      message: 'Please provide a step by step guide on how to use this application? Make sure you write at least two lines to show the steps of usage!',
+      //saw a sample validation from inquirer documentaion
+      validate: text => {
+        if (text.split('\n').length < 2) {
+          return 'Please write at least 2 lines to show the steps of use.';
+        }  
+        return true;
+      }
     },
     {
       type: 'checkbox',
@@ -55,32 +76,35 @@ const promptQuestions = () =>
       message: 'what technology do you use in this project?',
       choices: [
         'Node.js',
-        'inquirer',
-        'javaScript',
-        'fs(File System'        
+        ' inquirer',
+        ' javaScript',
+        ' fs(File System)'        
       ]
     },        
     {
       type: 'list',
       name: 'license',
       message: 'How do want to licese your application?',
-      choices: [
-        'MIT', 
-        'Apache',         
-        'other',
-      ]
+      choices: Object.keys(licenseOptions)
+    },
+    {
+      type: 'confirm',
+      name: 'acceptContribution',
+      message: 'Would you allow other developers to contribute to this project?'      
     },
     {
       type: 'input',
       name: 'contribution',
-      message: 'Who else contributed for this project?',
-      default: 'I alone can fix it'
-    },
+      message: 'Please provide guidelines on how to contribute to this app?',
+      default: 'contact me on the email provided below',
+      when:  answers =>  answers.acceptContribution
+    },    
     {
-        type: 'input',
-        name: 'email',
-        message: 'provide your email for contact?',
-      },
+      type: 'input',
+      name: 'test',
+      message: 'Please testing instructions?',
+      default: 'echo "Error: no test specified"'  
+    }    
   ]);
   
 
@@ -88,54 +112,54 @@ const promptQuestions = () =>
 const generateREADME = (answers) => 
 
 `
-[![MIT License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/MIT)
+# ${answers.title} 
 
-
-# ${answers.title}
-
+[![${answers.license} License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/${answers.license})
+${licenseOptions[answers.license]}
 * View the [Github Repo](${answers.repo})
 
+
+## Description
+  ${answers.description}
+
 ## Table Of Contents 
-
-* [Introduction](#Introduction)
-* [Objective](#Objective)
+* [Installation Instructions](#Installation-Instructions)
 * [How To Use The App](#How-To-Use-The-App)
-* [Contact](Contact)
+* [Technologies Used](#Technologies-Used)
+* [Contributing Guidelines](#Contributing-Guidelines)
+* [Test Information](#Test-Information)
+* [License](#License)
+* [Questions](#Questions)
 
-${answers.table.map(element => {
-   return '* [' + element + ']' + '(#' + element + ') \r\n' 
-})}
 
-## Introduction
+## Installation Instructions
 
-${answers.introduction}
-
-## Objective
-
-${answers.objective}
+  ${answers.installation}
 
 ## How To Use The App
-
-* ${answers.how}
+  ${answers.how}
 
 ## Technologies Used
+  ${answers.technology}
 
-${answers.technology}
-${answers.askAgain}
+## Contributing Guidelines
+  ${answers.contribution}
 
 ## License
 
-[![MIT License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/MIT)
+  ${answers.license}
 
-## Contact
+## Questions
 
-Should you have any questions about this repo, contact me on [${answers.email}](mailto:${answers.email})
+Should you have any questions about this project,
+  * you can reach me through email: [${answers.email}](mailto:${answers.email}) 
+  * or visit my [Github Profile](https://github.com/${answers.username}) for more information.
 
 `;
   promptQuestions()
   .then((answers) =>{
        writeFileAsync('README.md', generateREADME(answers))
-      //  console.log(answers)
+       console.log(answers)
     //    console.log(answers.table)
     //    console.log(answers.table.Introduction) 
   })

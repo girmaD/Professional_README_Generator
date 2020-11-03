@@ -1,46 +1,45 @@
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg "License Badge")
+# readme generator 
 
-# Professional README Generator
+[![None License](https://img.shields.io/badge/License-None-blue.svg)](https://opensource.org/licenses/None)
+No license
+* View the [Github Repo](repo here)
 
-* View the [Github Repo](https://github.com/girmaD/Professional_README_Generator.git)
+
+## Description
+  description here
 
 ## Table Of Contents 
-
-* [Introduction](#Introduction)
-* [Objective](#Objective)
+* [Installation Instructions](#Installation-Instructions)
 * [How To Use The App](#How-To-Use-The-App)
-* [Contact](Contact)
+* [Technologies Used](#Technologies-Used)
+* [Contributing Guidelines](#Contributing-Guidelines)
+* [Test Information](#Test-Information)
+* [License](#License)
+* [Questions](#Questions)
 
-* [Introduction](#Introduction) 
-,* [Objective](#Objective) 
-,* [How-To-Use-The-App](#How-To-Use-The-App) 
-,* [Contact](#Contact) 
 
+## Installation Instructions
 
-## Introduction
-
-This app generates a README file by taking inputs from the commandline.
-
-## Objective
-
-The Objective of this project is to create a readme file from the command line by using inquirer package.
+  npm i readme-genreator
 
 ## How To Use The App
-
-* follow the prompts
-answer all questions
+  open 
+answer
 
 ## Technologies Used
+  Node.js, inquirer, javaScript, fs(File System)
 
-Node.js,inquirer,javaScript,fs(File System
-undefined
+## Contributing Guidelines
+  contact me on the email provided below
 
 ## License
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg "License Badge")
+  None
 
-## Contact
+## Questions
 
-Should you have any questions about this repo, contact me on [girma.derib@gmail.com](mailto:girma.derib@gmail.com)
+Should you have any questions about this project,
+  * you can reach me through email: [girma.derib@gmail.com](mailto:girma.derib@gmail.com) 
+  * or visit my [Github Profile](https://github.com/girmaD) for more information.
 
