@@ -27,6 +27,7 @@
 -	Run node index.js
 -	Answer each prompted question carefully
 -	A README.md file will be created when you finish all the questions.
+- Link to video showing demo - [Watch the video here](https://drive.google.com/file/d/1DACkJzjSkvbtWWiAG7nu4sjSNSguXiCo/view?usp=sharing)
 
 
 ## Contributing Guidelines
