@@ -1,4 +1,4 @@
-// Some of the common licenses for projects
+// Some of the common licenses for projects I found on https://gist.github.com/artem-solovev/e1602722f84835f35daef4dfb3df5500
 const licenseOptions = {
     "MIT": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
     "Apache": "[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)",
@@ -7,5 +7,5 @@ const licenseOptions = {
     "Eclipse": "[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)",  
     "None": "[![None License](https://img.shields.io/badge/License-None-lightgrey.svg)]"
 };
-
+// export this module for use on other modules
 module.exports = licenseOptions;

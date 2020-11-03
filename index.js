@@ -1,12 +1,11 @@
 // require needed modules to be able to build this app
-// const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require('util');
-const licenseOptions = require('./licenseOptions')
 
 // require local module
 const promptQuestions = require('./promptQuestions');
-
+const licenseOptions = require('./licenseOptions')
+//apply promisify method of util module to meke writeFile to return a promise
 const writeFileAsync = util.promisify(fs.writeFile);
 
 //A function declaration to generate important sections of README.md file
@@ -36,7 +35,7 @@ ${licenseOptions[answers.license]}
  * ${answers.installation}
 
 ## How To Use The App
-  ${answers.how}
+${answers.how}
 
 ## Contributing Guidelines
  * ${answers.contribution}
@@ -57,7 +56,7 @@ Should you have any questions about this project,
 `;
 // Call promptQuestions function
   promptQuestions()
-  // if the promise works our create the readme file
+  // if the promise works out, create the readme file
   .then((answers) =>{
        writeFileAsync('README.md', generateREADME(answers))
       //  console.log(answers)       
@@ -66,5 +65,5 @@ Should you have any questions about this project,
   .then(() => {
       console.log('Successfully created a README.md file')     
   })     
-  //If the promise didnot work out, console the err
+  //If the promise didnot work out, console the error
   .catch((err) => console.error(err));
