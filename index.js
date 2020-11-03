@@ -3,23 +3,15 @@ const fs = require("fs");
 const util = require('util');
 
 const writeFileAsync = util.promisify(fs.writeFile);
-// repo names are more complicated than concatenating using dashes
-function githubRepoAssembler(str) {  
-  const strArr = str.split(' ');
-  let firstEl = strArr[0];
-  for(let i = 1; i < strArr.length; i++ ){
-      firstEl += `-${strArr[i]}`
-  }
-  return firstEl;
-}
-//Common licenses for projects
+
+//Some of the common licenses for projects
 const licenseOptions = {
-  "MIT": "[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)",
+  "MIT": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
   "Apache": "[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)",
   "GNU": "[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)",
   "BSD": "[![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://opensource.org/licenses/BSD-3-Clause)",
   "Eclipse": "[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)",  
-  "None": "No license",
+  "None": "[![None License](https://img.shields.io/badge/License-None-lightgrey.svg)]"
 };
 const promptQuestions = () =>
   inquirer.prompt([
@@ -69,18 +61,7 @@ const promptQuestions = () =>
         }  
         return true;
       }
-    },
-    {
-      type: 'checkbox',
-      name: 'technology',
-      message: 'what technology do you use in this project?',
-      choices: [
-        'Node.js',
-        ' inquirer',
-        ' javaScript',
-        ' fs(File System)'        
-      ]
-    },        
+    },           
     {
       type: 'list',
       name: 'license',
@@ -103,7 +84,7 @@ const promptQuestions = () =>
       type: 'input',
       name: 'test',
       message: 'Please testing instructions?',
-      default: 'echo "Error: no test specified"'  
+      default: 'No test specified'  
     }    
   ]);
   
@@ -114,8 +95,8 @@ const generateREADME = (answers) =>
 `
 # ${answers.title} 
 
-[![${answers.license} License](https://img.shields.io/badge/License-${answers.license}-blue.svg)](https://opensource.org/licenses/${answers.license})
 ${licenseOptions[answers.license]}
+
 * View the [Github Repo](${answers.repo})
 
 
@@ -125,7 +106,6 @@ ${licenseOptions[answers.license]}
 ## Table Of Contents 
 * [Installation Instructions](#Installation-Instructions)
 * [How To Use The App](#How-To-Use-The-App)
-* [Technologies Used](#Technologies-Used)
 * [Contributing Guidelines](#Contributing-Guidelines)
 * [Test Information](#Test-Information)
 * [License](#License)
@@ -134,20 +114,20 @@ ${licenseOptions[answers.license]}
 
 ## Installation Instructions
 
-  ${answers.installation}
+ * ${answers.installation}
 
 ## How To Use The App
   ${answers.how}
 
-## Technologies Used
-  ${answers.technology}
-
 ## Contributing Guidelines
-  ${answers.contribution}
+ * ${answers.contribution}
+
+## Test Information
+  * ${answers.test}
 
 ## License
 
-  ${answers.license}
+ * ${answers.license}
 
 ## Questions
 
@@ -159,11 +139,9 @@ Should you have any questions about this project,
   promptQuestions()
   .then((answers) =>{
        writeFileAsync('README.md', generateREADME(answers))
-       console.log(answers)
-    //    console.log(answers.table)
-    //    console.log(answers.table.Introduction) 
+      //  console.log(answers)       
   })
   .then(() => {
-      console.log('Successfully wrote to README.md')     
+      console.log('Successfully created a README.md file')     
   })     
   .catch((err) => console.error(err));
